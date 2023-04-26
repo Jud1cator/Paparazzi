@@ -1,0 +1,16 @@
+{
+    "class_mapping": {
+        "0": "car",
+        "1": "pedestrian"
+    },
+    "model_config": {
+        "server_url": "host.docker.internal:8001",
+        "model_name": "yolov5l_vehicle_person_autolabeler",
+        "input_layer": "images",
+        "output_layer": "output0",
+        "confidence_threshold": 0.3,
+        "nms_iou_threshold": 0.5,
+        "stride": 64,
+        "max_batch_size": 4
+    }
+}

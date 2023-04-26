@@ -1,0 +1,8 @@
+apache-airflow
+pendulum==2.1.2
+yadisk==1.2.19
+numpy==1.24.0
+opencv-python==4.7.0.72
+Pillow==9.4.0
+tritonclient[grpc]
+tqdm

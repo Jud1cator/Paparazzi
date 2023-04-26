@@ -1,0 +1,7 @@
+__pycache__
+logs
+plugins
+.env
+venv
+.vscode
+dags/image_collector/image_collector_config.json
