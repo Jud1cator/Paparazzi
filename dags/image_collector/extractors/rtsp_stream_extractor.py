@@ -1,5 +1,6 @@
 import datetime
 import os
+import subprocess
 
 import pendulum
 
@@ -31,15 +32,32 @@ class RTSPStreamExtractor:
             f"{self.name}_{pendulum.now('Europe/Moscow').isoformat()}.{self.image_format}",
         )
 
-    def _build_bash_command(self) -> str:
+    def _build_bash_command(self) -> list[str]:
         fp = self._build_save_path()
-        return f"mkdir -p {self.target_data_root} && ffmpeg -rtsp_transport tcp -y -i '{self.rtsp_addr}' -vframes 1 {fp}"
+        return [
+            "mkdir",
+            "-p",
+            self.target_data_root,
+            "&&",
+            "ffmpeg",
+            "-rtsp_transport",
+            "tcp",
+            "-y",
+            "-i",
+            f"'{self.rtsp_addr}'",
+            "-vframes",
+            "1",
+            fp,
+        ]
 
     def build_operator(self):
         return BashOperator(
             task_id=f"{self.name}_RTSPStreamExtractor",
-            bash_command=self._build_bash_command(),
+            bash_command=" ".join(self._build_bash_command()),
             execution_timeout=datetime.timedelta(
                 seconds=int(Variable.get("RTSPSTREAMEXTRACTOR_TIMEOUT", 60))
             ),
         )
+
+    def extract(self):
+        subprocess.Popen(self._build_bash_command())
